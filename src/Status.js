@@ -677,6 +677,26 @@ export default class Status {
                 return "EMPTY_TOKEN_REFERENCE_LIST";
             case Status.UpdateNodeAccountNotAllowed:
                 return "UPDATE_NODE_ACCOUNT_NOT_ALLOWED";
+            case Status.TokenHasNoMetadataOrSupplyKey:
+                return "TOKEN_HAS_NO_METADATA_OR_SUPPLY_KEY";
+            case Status.EmptyPendingAirdropIdList:
+                return "EMPTY_PENDING_AIRDROP_ID_LIST";
+            case Status.PendingAirdropIdRepeated:
+                return "PENDING_AIRDROP_ID_REPEATED";
+            case Status.MaxPendingAirdropIdExceeded:
+                return "MAX_PENDING_AIRDROP_ID_EXCEEDED";
+            case Status.PendingNftAirdropAlreadyExists:
+                return "PENDING_NFT_AIRDROP_ALREADY_EXISTS";
+            case Status.AccountHasPendingAirdrops:
+                return "ACCOUNT_HAS_PENDING_AIRDROPS";
+            case Status.ThrottledAtConsensus:
+                return "THROTTLED_AT_CONSENSUS";
+            case Status.InvalidPendingAirdropId:
+                return "INVALID_PENDING_AIRDROP_ID";
+            case Status.TokenAirdropWithFallbackRoyalty:
+                return "TOKEN_AIRDROP_WITH_FALLBACK_ROYALTY";
+            case Status.InvalidTokenInPendingAirdrop:
+                return "INVALID_TOKEN_IN_PENDING_AIRDROP";
             default:
                 return `UNKNOWN (${this._code})`;
         }
@@ -1325,6 +1345,26 @@ export default class Status {
                 return Status.EmptyTokenReferenceList;
             case 359:
                 return Status.UpdateNodeAccountNotAllowed;
+            case 360:
+                return Status.TokenHasNoMetadataOrSupplyKey;
+            case 361:
+                return Status.EmptyPendingAirdropIdList;
+            case 362:
+                return Status.PendingAirdropIdRepeated;
+            case 363:
+                return Status.MaxPendingAirdropIdExceeded;
+            case 364:
+                return Status.PendingNftAirdropAlreadyExists;
+            case 365:
+                return Status.AccountHasPendingAirdrops;
+            case 366:
+                return Status.ThrottledAtConsensus;
+            case 367:
+                return Status.InvalidPendingAirdropId;
+            case 368:
+                return Status.TokenAirdropWithFallbackRoyalty;
+            case 369:
+                return Status.InvalidTokenInPendingAirdrop;
             default:
                 throw new Error(
                     `(BUG) Status.fromCode() does not handle code: ${code}`,
@@ -2938,13 +2978,13 @@ Status.InvalidEndpoint = new Status(351);
  */
 Status.GossipEndpointsExceededLimit = new Status(352);
 
- /**
+/**
  * The transaction attempted to use duplicate `TokenReference`.<br/>
  * This affects `TokenReject` attempting to reject same token reference more than once.
  */
 Status.TokenReferenceRepeated = new Status(353);
 
- /**
+/**
  * The account id specified as the owner in `TokenReject` is invalid or does not exist.
  */
 Status.InvalidOwnerId = new Status(354);
@@ -2970,6 +3010,70 @@ Status.InvalidIpv4Address = new Status(357);
 Status.EmptyTokenReferenceList = new Status(358);
 
 /*
-* The node account is not allowed to be updated
-*/
+ * The node account is not allowed to be updated
+ */
 Status.UpdateNodeAccountNotAllowed = new Status(359);
+
+/*
+ * The token has no metadata or supply key
+ */
+Status.TokenHasNoMetadataOrSupplyKey = new Status(360);
+
+/**
+ * The transaction attempted to the use an empty List of `PendingAirdropId`.
+ */
+Status.EmptyPendingAirdropIdList = new Status(361);
+
+/**
+ * The transaction attempted to the same `PendingAirdropId` twice.
+ */
+Status.PendingAirdropIdRepeated = new Status(362);
+
+/**
+ * The transaction attempted to use more than the allowed number of `PendingAirdropId`.
+ */
+Status.MaxPendingAirdropIdExceeded = new Status(363);
+
+/*
+ * A pending airdrop already exists for the specified NFT.
+ */
+Status.PendingNftAirdropAlreadyExists = new Status(364);
+
+/*
+ * The identified account is sender for one or more pending airdrop(s)
+ * and cannot be deleted.<br/>
+ * Requester should cancel all pending airdrops before resending
+ * this transaction.
+ */
+Status.AccountHasPendingAirdrops = new Status(365);
+
+/**
+ * Consensus throttle did not allow execution of this transaction.<br/>
+ * The transaction should be retried after a modest delay.
+ */
+Status.ThrottledAtConsensus = new Status(366);
+
+/**
+ * The provided pending airdrop id is invalid.<br/>
+ * This pending airdrop MAY already be claimed or cancelled.
+ * <p>
+ * The client SHOULD query a mirror node to determine the current status of
+ * the pending airdrop.
+ */
+Status.InvalidPendingAirdropId = new Status(367);
+
+/**
+ * The token to be airdropped has a fallback royalty fee and cannot be
+ * sent or claimed via an airdrop transaction.
+ */
+Status.TokenAirdropWithFallbackRoyalty = new Status(368);
+
+/**
+ * This airdrop claim is for a pending airdrop with an invalid token.<br/>
+ * The token might be deleted, or the sender may not have enough tokens
+ * to fulfill the offer.
+ * <p>
+ * The client SHOULD query mirror node to determine the status of the pending
+ * airdrop and whether the sender can fulfill the offer.
+ */
+Status.InvalidTokenInPendingAirdrop = new Status(369);
