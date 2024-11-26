@@ -155,8 +155,11 @@ async function main() {
             );
         }
     }
-
     client.close();
+
+    // We dont execute the transaction because it has no signatures
+    // We just show how to remove all signatures from a transaction
+    // and then show them to the user
 }
 
 void main();
